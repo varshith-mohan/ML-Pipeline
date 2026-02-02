@@ -1,0 +1,8 @@
+python==3.9
+numpy==1.26.4
+pandas>=2.1,<2.2
+scikit-learn
+numexpr>=2.8.4
+bottleneck>=1.3.6
+dvclive
+pyyaml
