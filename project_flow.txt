@@ -18,12 +18,22 @@ Setting up and automating ML pipeline (with params config file)
 -> Do "dvc repro" again to test the pipeline along with the params
 -> Now git add, commit, push
 
+
+Expermients with DVC -->
+-> pip install dvclive
+-> Add the dvclive code block (mentioned below)
+-> Do "dvc exp run" it will create a new dc. yaml(if already not there) and dvclive directory (each run will be considered as an expe
+-> Do "dvc exp show" on terminal to see the experiments or use extension on VSCode (install dvc extension)
+-> Do "dve exp remove {exp-name}" to remove exp (optional) | "dvc exp apply {exp-name]" to reproduce prev exp
+-> Change params, re-run code (produce new experiments)
+-> Now git add, commit, push
+
 _______________________________________________________________________________
 
-params setup -- 
+params setup --> 
 
-1> import yaml
-2> add func:
+1. import yaml
+2. add func:
 def load_params(params_path: str) -> dict:
     """Load parameters from a YAML file."""
     try:
@@ -40,7 +50,7 @@ def load_params(params_path: str) -> dict:
     except Exception as e:
         logger.error('Unexpected error: %s', e)
         raise
-3> Add to main():
+3. Add to main():
 
 # data_ingestion
 params = load_params(params_path='params.yaml')
@@ -58,14 +68,33 @@ params = load_params('params.yaml')['model_building']
 -------------------------------------------------------------------------------
 
 dvclive code block:
-1> import dvclive and yaml:
+1. import dvclive and yaml:
 from dvclive import Live
 import yaml
-2> Add the load_params function and initiate "params" var in main
-3> Add below code block to main:
+2. Add the load_params function and initiate "params" var in main
+3. Add below code block to main:
 with Live(save_dvc_exp=True) as live:
     live.log_metric('accuracy', accuracy_score(y_test, y_test))
     live.log_metric('precision', precision_score(y_test, y_test))
     live.log_metric('recall', recall_score(y_test, y_test))
 
     live.log_params(params)
+
+_______________________________________________________________________________
+
+-------------------------------------------------------------------------------
+
+dvclive code block:
+1. import dvclive and yaml:
+from dvclive import Live
+import yaml
+2. Add the load_params function and initiate "params" var in main
+3. Add below code block to main:
+with Live(save_dvc_exp=True) as live:
+    live.log_metric('accuracy', accuracy_score(y_test, y_test))
+    live.log_metric('precision', precision_score(y_test, y_test))
+    live.log_metric('recall', recall_score(y_test, y_test))
+
+    live.log_params(params)
+
+_______________________________________________________________________________
