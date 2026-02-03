@@ -99,9 +99,9 @@ def save_data(train_data: pd.DataFrame, test_data: pd.DataFrame, data_path: str)
 # pipeline orchestration - This is the entry point of the pipeline.
 def main():
     try:
-        #params = load_params(params_path='params.yaml')
-        #test_size = params['data_ingestion']['test_size']
-        test_size = 0.25
+        params = load_params(params_path='params.yaml')
+        test_size = params['data_ingestion']['test_size']
+        #test_size = 0.25
         data_path = 'https://raw.githubusercontent.com/varshith-mohan/ML-Pipeline/refs/heads/main/spam.csv'
         df = load_data(data_url=data_path)
         final_df = preprocess_data(df)
