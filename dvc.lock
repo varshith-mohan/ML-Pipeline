@@ -1,0 +1,84 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python src/data_ingestion.py
+    deps:
+    - path: src/data_ingestion.py
+      hash: md5
+      md5: 505bde3db846f9ba30f120f839415e42
+      size: 4219
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: a8aff7b29d0516a70774ec558324c025.dir
+      size: 479272
+      nfiles: 2
+  data_preprocessing:
+    cmd: python src/data_preprocessing.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: a8aff7b29d0516a70774ec558324c025.dir
+      size: 479272
+      nfiles: 2
+    - path: src/data_preprocessing.py
+      hash: md5
+      md5: 1ea867374363101fc5260efcf885f496
+      size: 3874
+    outs:
+    - path: data/intermediate_data
+      hash: md5
+      md5: 998e232f51ebc7c67096d990675e3331.dir
+      size: 256117
+      nfiles: 2
+  feature_engineering:
+    cmd: python src/feature_engineering.py
+    deps:
+    - path: data/intermediate_data
+      hash: md5
+      md5: 998e232f51ebc7c67096d990675e3331.dir
+      size: 256117
+      nfiles: 2
+    - path: src/feature_engineering.py
+      hash: md5
+      md5: d0fccbc2b7bc74d7ca9a2b97ed82e9a5
+      size: 3828
+    outs:
+    - path: data/processed_data
+      hash: md5
+      md5: 3b6c345850fc63f7e125efb5c4278629.dir
+      size: 1178339
+      nfiles: 2
+  model_building:
+    cmd: python src/model_building.py
+    deps:
+    - path: data/processed_data
+      hash: md5
+      md5: 3b6c345850fc63f7e125efb5c4278629.dir
+      size: 1178339
+      nfiles: 2
+    - path: src/model_building.py
+      hash: md5
+      md5: 49c6a72c1503ab2d47dd975b04fed153
+      size: 4364
+    outs:
+    - path: models/rf_clf_model.pkl
+      hash: md5
+      md5: 79689f12f56a50e4462f10dc1ee64936
+      size: 948408
+  model_evaluation:
+    cmd: python src/model_evaluation.py
+    deps:
+    - path: models/rf_clf_model.pkl
+      hash: md5
+      md5: 79689f12f56a50e4462f10dc1ee64936
+      size: 948408
+    - path: src/model_evaluation.py
+      hash: md5
+      md5: 3f035f5163509357bbc3b0c6fb11a236
+      size: 4528
+    outs:
+    - path: reports/rf_clf_metrics.json
+      hash: md5
+      md5: 3bdf0dc18e0254c9f1ae06926cd3c547
+      size: 129
